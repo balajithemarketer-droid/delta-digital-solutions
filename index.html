@@ -1,2025 +1,377 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Digital Solutions | AI Video Ads & Websites</title>
-    <meta name="description" content="Delta Digital Solutions creates stunning AI-powered video advertisements and professional websites that drive real business results.">
-    <link rel="icon" type="image/jpeg" href="logo.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --navy: #0a1628;
-            --navy-light: #121f38;
-            --navy-mid: #1a2d4f;
-            --gold: #c9a84c;
-            --gold-light: #e3c96e;
-            --gold-dark: #a8872e;
-            --teal: #1a6b7a;
-            --teal-light: #2596a8;
-            --white: #f8f6f1;
-            --gray: #8a95a8;
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.08);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            scrollbar-width: thin;
-            scrollbar-color: var(--gold) var(--navy);
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--navy);
-            color: var(--white);
-            overflow-x: hidden;
-            line-height: 1.7;
-        }
-
-        /* ═══════════════ CUSTOM CURSOR ═══════════════ */
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: transform 0.1s;
-            mix-blend-mode: difference;
-        }
-
-        .cursor-ring {
-            width: 40px;
-            height: 40px;
-            border: 1.5px solid var(--gold);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 10000;
-            transition: all 0.15s ease-out;
-            opacity: 0.5;
-        }
-
-        .cursor-ring.hover {
-            width: 60px;
-            height: 60px;
-            border-color: var(--gold-light);
-            opacity: 0.8;
-        }
-
-        /* ═══════════════ NOISE OVERLAY ═══════════════ */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        /* ═══════════════ ANIMATED BG PARTICLES ═══════════════ */
-        .bg-particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--gold);
-            border-radius: 50%;
-            opacity: 0;
-            animation: floatParticle linear infinite;
-        }
-
-        @keyframes floatParticle {
-            0% { opacity: 0; transform: translateY(100vh) scale(0); }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { opacity: 0; transform: translateY(-10vh) scale(1); }
-        }
-
-        /* ═══════════════ NAVBAR ═══════════════ */
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            padding: 1rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(0px);
-        }
-
-        nav.scrolled {
-            background: rgba(10, 22, 40, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--glass-border);
-            padding: 0.7rem 3rem;
-        }
-
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            text-decoration: none;
-        }
-
-        .nav-logo img {
-            height: 45px;
-            width: auto;
-            transition: transform 0.3s;
-        }
-
-        .nav-logo:hover img {
-            transform: rotate(-5deg) scale(1.05);
-        }
-
-        .nav-logo-text {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--white);
-            letter-spacing: 0.5px;
-        }
-
-        .nav-logo-text span {
-            color: var(--gold);
-        }
-
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2.5rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1.5px;
-            background: var(--gold);
-            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .nav-links a:hover {
-            color: var(--white);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-cta {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--navy) !important;
-            padding: 0.7rem 1.8rem;
-            border-radius: 50px;
-            font-weight: 700 !important;
-            letter-spacing: 1px !important;
-            transition: all 0.3s !important;
-            box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
-        }
-
-        .nav-cta::after { display: none !important; }
-
-        .nav-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.5) !important;
-        }
-
-        .mobile-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .mobile-toggle span {
-            width: 28px;
-            height: 2px;
-            background: var(--white);
-            transition: all 0.3s;
-        }
-
-        .mobile-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-        .mobile-toggle.active span:nth-child(2) { opacity: 0; }
-        .mobile-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
-
-        /* ═══════════════ HERO SECTION ═══════════════ */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 8rem 5% 4rem;
-            overflow: hidden;
-        }
-
-        .hero-grid-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image:
-                linear-gradient(rgba(201, 168, 76, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(201, 168, 76, 0.03) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
-        }
-
-        .hero-glow {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            border-radius: 50%;
-            filter: blur(120px);
-            opacity: 0.15;
-            animation: pulseGlow 8s ease-in-out infinite;
-        }
-
-        .hero-glow-1 {
-            top: -10%;
-            right: 10%;
-            background: var(--gold);
-        }
-
-        .hero-glow-2 {
-            bottom: -20%;
-            left: -5%;
-            background: var(--teal);
-            animation-delay: -4s;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.12; }
-            50% { transform: scale(1.2); opacity: 0.2; }
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 800px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            padding: 0.5rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.78rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 2rem;
-            backdrop-filter: blur(10px);
-            opacity: 0;
-            animation: slideUp 0.8s 0.2s forwards;
-        }
-
-        .hero-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: blink 2s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(3rem, 6.5vw, 5.5rem);
-            font-weight: 800;
-            line-height: 1.05;
-            margin-bottom: 1.5rem;
-            opacity: 0;
-            animation: slideUp 1s 0.4s forwards;
-        }
-
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, var(--gold), var(--gold-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero h1 .line {
-            display: block;
-        }
-
-        .hero-desc {
-            font-size: 1.15rem;
-            color: var(--gray);
-            max-width: 550px;
-            margin-bottom: 2.5rem;
-            opacity: 0;
-            animation: slideUp 1s 0.6s forwards;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-            opacity: 0;
-            animation: slideUp 1s 0.8s forwards;
-        }
-
-        .btn-primary {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--navy);
-            padding: 1rem 2.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 25px rgba(201, 168, 76, 0.35);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-primary::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn-primary:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 40px rgba(201, 168, 76, 0.5);
-        }
-
-        .btn-outline {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-            border: 1.5px solid rgba(201, 168, 76, 0.4);
-            color: var(--gold);
-            padding: 1rem 2.2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
-            transition: all 0.4s;
-            background: transparent;
-        }
-
-        .btn-outline:hover {
-            background: rgba(201, 168, 76, 0.1);
-            border-color: var(--gold);
-            transform: translateY(-3px);
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 4rem;
-            padding-top: 3rem;
-            border-top: 1px solid var(--glass-border);
-            opacity: 0;
-            animation: slideUp 1s 1s forwards;
-        }
-
-        .stat-item h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--gold);
-        }
-
-        .stat-item p {
-            font-size: 0.8rem;
-            color: var(--gray);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-top: 0.3rem;
-        }
-
-        /* Hero visual - right side */
-        .hero-visual {
-            position: absolute;
-            right: 5%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 450px;
-            height: 450px;
-            opacity: 0;
-            animation: fadeScale 1.2s 0.5s forwards;
-        }
-
-        @keyframes fadeScale {
-            from { opacity: 0; transform: translateY(-50%) scale(0.8); }
-            to { opacity: 1; transform: translateY(-50%) scale(1); }
-        }
-
-        .hero-visual-inner {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-
-        .orbit-ring {
-            position: absolute;
-            border: 1px solid rgba(201, 168, 76, 0.1);
-            border-radius: 50%;
-            animation: spin 30s linear infinite;
-        }
-
-        .orbit-ring:nth-child(1) {
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-        }
-
-        .orbit-ring:nth-child(2) {
-            width: 75%;
-            height: 75%;
-            top: 12.5%;
-            left: 12.5%;
-            animation-duration: 20s;
-            animation-direction: reverse;
-        }
-
-        .orbit-ring:nth-child(3) {
-            width: 50%;
-            height: 50%;
-            top: 25%;
-            left: 25%;
-            animation-duration: 15s;
-        }
-
-        .orbit-dot {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: var(--gold);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--gold);
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .hero-logo-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 30px;
-            overflow: hidden;
-            border: 2px solid rgba(201, 168, 76, 0.3);
-            box-shadow: 0 0 60px rgba(201, 168, 76, 0.2);
-        }
-
-        .hero-logo-center img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ═══════════════ MARQUEE ═══════════════ */
-        .marquee-section {
-            padding: 2rem 0;
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-            overflow: hidden;
-            position: relative;
-            z-index: 2;
-        }
-
-        .marquee-track {
-            display: flex;
-            gap: 3rem;
-            animation: marquee 25s linear infinite;
-            width: max-content;
-        }
-
-        .marquee-item {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            white-space: nowrap;
-            color: rgba(255, 255, 255, 0.15);
-            display: flex;
-            align-items: center;
-            gap: 3rem;
-        }
-
-        .marquee-item .dot {
-            width: 6px;
-            height: 6px;
-            background: var(--gold);
-            border-radius: 50%;
-            opacity: 0.4;
-        }
-
-        @keyframes marquee {
-            to { transform: translateX(-50%); }
-        }
-
-        /* ═══════════════ SECTIONS COMMON ═══════════════ */
-        section {
-            position: relative;
-            z-index: 2;
-        }
-
-        .section-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.2rem, 4vw, 3.5rem);
-            font-weight: 800;
-            line-height: 1.15;
-            margin-bottom: 1.2rem;
-        }
-
-        .section-desc {
-            color: var(--gray);
-            font-size: 1.05rem;
-            max-width: 550px;
-        }
-
-        /* ═══════════════ SERVICES ═══════════════ */
-        .services {
-            padding: 8rem 5%;
-        }
-
-        .services-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .services-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-            gap: 2rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .service-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-        }
-
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--gold), var(--teal-light), var(--gold));
-            opacity: 0;
-            transition: opacity 0.5s;
-        }
-
-        .service-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(201, 168, 76, 0.2);
-            transform: translateY(-8px);
-        }
-
-        .service-card:hover::before {
-            opacity: 1;
-        }
-
-        .service-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, rgba(201, 168, 76, 0.15), rgba(201, 168, 76, 0.05));
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1.8rem;
-            font-size: 1.8rem;
-            border: 1px solid rgba(201, 168, 76, 0.15);
-        }
-
-        .service-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .service-card p {
-            color: var(--gray);
-            font-size: 0.95rem;
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .service-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .service-tag {
-            font-size: 0.72rem;
-            padding: 0.35rem 0.9rem;
-            background: rgba(201, 168, 76, 0.08);
-            border: 1px solid rgba(201, 168, 76, 0.15);
-            border-radius: 50px;
-            color: var(--gold-light);
-            letter-spacing: 0.5px;
-        }
-
-        /* ═══════════════ WHY CHOOSE US ═══════════════ */
-        .why-us {
-            padding: 6rem 5% 8rem;
-            background: linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.02), transparent);
-        }
-
-        .why-us-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-            max-width: 1300px;
-            margin: 0 auto;
-            align-items: center;
-        }
-
-        .why-us-features {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .why-feature {
-            display: flex;
-            gap: 1.2rem;
-            padding: 1.5rem;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            transition: all 0.4s;
-        }
-
-        .why-feature:hover {
-            border-color: rgba(201, 168, 76, 0.2);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .why-feature-icon {
-            width: 48px;
-            height: 48px;
-            min-width: 48px;
-            background: linear-gradient(135deg, rgba(201, 168, 76, 0.12), transparent);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            border: 1px solid rgba(201, 168, 76, 0.1);
-        }
-
-        .why-feature h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.4rem;
-        }
-
-        .why-feature p {
-            font-size: 0.88rem;
-            color: var(--gray);
-        }
-
-        /* ═══════════════ PROCESS ═══════════════ */
-        .process {
-            padding: 8rem 5%;
-        }
-
-        .process-header {
-            text-align: center;
-            margin-bottom: 5rem;
-        }
-
-        .process-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .process-timeline {
-            max-width: 1000px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .process-timeline::before {
-            content: '';
-            position: absolute;
-            left: 50%;
-            top: 0;
-            bottom: 0;
-            width: 1px;
-            background: linear-gradient(to bottom, transparent, var(--gold), var(--gold), transparent);
-            opacity: 0.2;
-        }
-
-        .process-step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 3rem;
-            position: relative;
-        }
-
-        .process-step:nth-child(even) {
-            flex-direction: row-reverse;
-        }
-
-        .process-step-content {
-            width: 45%;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem 2.2rem;
-            transition: all 0.4s;
-        }
-
-        .process-step-content:hover {
-            border-color: rgba(201, 168, 76, 0.2);
-            transform: translateY(-4px);
-        }
-
-        .process-number {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--navy);
-            z-index: 2;
-            box-shadow: 0 0 30px rgba(201, 168, 76, 0.3);
-        }
-
-        .process-step-content h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .process-step-content p {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-
-        /* ═══════════════ PORTFOLIO SHOWCASE ═══════════════ */
-        .portfolio {
-            padding: 8rem 5%;
-            background: linear-gradient(180deg, transparent, rgba(26, 107, 122, 0.03), transparent);
-        }
-
-        .portfolio-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .portfolio-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        .portfolio-card {
-            aspect-ratio: 4/3;
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.5s;
-        }
-
-        .portfolio-card:hover {
-            transform: scale(1.02);
-            border-color: rgba(201, 168, 76, 0.3);
-        }
-
-        .portfolio-card-bg {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-            position: relative;
-        }
-
-        .portfolio-card-bg .emoji-display {
-            font-size: 3rem;
-        }
-
-        .portfolio-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2rem;
-            background: linear-gradient(to top, rgba(10, 22, 40, 0.95), transparent);
-            transform: translateY(20px);
-            opacity: 0;
-            transition: all 0.4s;
-        }
-
-        .portfolio-card:hover .portfolio-overlay {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .portfolio-overlay h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            margin-bottom: 0.3rem;
-        }
-
-        .portfolio-overlay p {
-            color: var(--gray);
-            font-size: 0.82rem;
-        }
-
-        /* ═══════════════ PRICING ═══════════════ */
-        .pricing {
-            padding: 8rem 5%;
-        }
-
-        .pricing-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .pricing-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-
-        .pricing-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 3rem 2.5rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.5s;
-        }
-
-        .pricing-card.featured {
-            border-color: rgba(201, 168, 76, 0.3);
-            background: linear-gradient(180deg, rgba(201, 168, 76, 0.06), var(--glass));
-        }
-
-        .pricing-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: 20px;
-            right: -35px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--navy);
-            font-size: 0.6rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            padding: 0.4rem 3rem;
-            transform: rotate(45deg);
-        }
-
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(201, 168, 76, 0.3);
-        }
-
-        .pricing-card h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .pricing-card .price {
-            font-family: 'Playfair Display', serif;
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--gold);
-            margin: 1rem 0;
-        }
-
-        .pricing-card .price span {
-            font-size: 1rem;
-            color: var(--gray);
-            font-family: 'DM Sans', sans-serif;
-            font-weight: 400;
-        }
-
-        .pricing-card .price-desc {
-            color: var(--gray);
-            font-size: 0.85rem;
-            margin-bottom: 2rem;
-        }
-
-        .pricing-features {
-            text-align: left;
-            margin-bottom: 2rem;
-        }
-
-        .pricing-features li {
-            list-style: none;
-            padding: 0.5rem 0;
-            color: var(--gray);
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 0.7rem;
-        }
-
-        .pricing-features li::before {
-            content: '✦';
-            color: var(--gold);
-            font-size: 0.7rem;
-        }
-
-        .pricing-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            transition: all 0.4s;
-            text-align: center;
-        }
-
-        .pricing-btn-primary {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--navy);
-        }
-
-        .pricing-btn-outline {
-            border: 1.5px solid rgba(201, 168, 76, 0.3);
-            color: var(--gold);
-        }
-
-        .pricing-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 30px rgba(201, 168, 76, 0.3);
-        }
-
-        /* ═══════════════ TESTIMONIALS ═══════════════ */
-        .testimonials {
-            padding: 8rem 5%;
-            background: linear-gradient(180deg, transparent, rgba(201, 168, 76, 0.02), transparent);
-        }
-
-        .testimonials-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .testimonials-header .section-desc {
-            margin: 0 auto;
-        }
-
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .testimonial-card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2.5rem;
-            transition: all 0.4s;
-        }
-
-        .testimonial-card:hover {
-            border-color: rgba(201, 168, 76, 0.2);
-            transform: translateY(-4px);
-        }
-
-        .testimonial-stars {
-            color: var(--gold);
-            font-size: 0.9rem;
-            margin-bottom: 1.2rem;
-            letter-spacing: 3px;
-        }
-
-        .testimonial-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: rgba(248, 246, 241, 0.85);
-            margin-bottom: 1.5rem;
-            font-style: italic;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .testimonial-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--gold), var(--teal));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--navy);
-        }
-
-        .testimonial-author-info h5 {
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .testimonial-author-info p {
-            font-size: 0.78rem;
-            color: var(--gray);
-        }
-
-        /* ═══════════════ CTA SECTION ═══════════════ */
-        .cta {
-            padding: 8rem 5%;
-            text-align: center;
-        }
-
-        .cta-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: linear-gradient(135deg, var(--navy-mid), var(--navy-light));
-            border: 1px solid rgba(201, 168, 76, 0.2);
-            border-radius: 32px;
-            padding: 5rem 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .cta-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(201, 168, 76, 0.06), transparent 50%);
-            animation: rotateBg 15s linear infinite;
-        }
-
-        @keyframes rotateBg {
-            to { transform: rotate(360deg); }
-        }
-
-        .cta-card > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        .cta h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .cta p {
-            color: var(--gray);
-            font-size: 1.1rem;
-            max-width: 500px;
-            margin: 0 auto 2.5rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.2rem;
-            flex-wrap: wrap;
-        }
-
-        /* ═══════════════ FOOTER ═══════════════ */
-        footer {
-            padding: 4rem 5% 2rem;
-            border-top: 1px solid var(--glass-border);
-            position: relative;
-            z-index: 2;
-        }
-
-        .footer-top {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-brand img {
-            height: 50px;
-            margin-bottom: 1rem;
-        }
-
-        .footer-brand p {
-            color: var(--gray);
-            font-size: 0.9rem;
-            max-width: 300px;
-            line-height: 1.7;
-        }
-
-        .footer-col h4 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
-            color: var(--white);
-        }
-
-        .footer-col a {
-            display: block;
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 0.88rem;
-            padding: 0.3rem 0;
-            transition: color 0.3s;
-        }
-
-        .footer-col a:hover {
-            color: var(--gold);
-        }
-
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        .footer-bottom p {
-            color: var(--gray);
-            font-size: 0.8rem;
-        }
-
-        .footer-socials {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .footer-socials a {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--gray);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .footer-socials a:hover {
-            border-color: var(--gold);
-            color: var(--gold);
-            background: rgba(201, 168, 76, 0.1);
-        }
-
-        /* ═══════════════ WHATSAPP FLOAT ═══════════════ */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-        }
-
-        .whatsapp-float-label {
-            background: var(--navy-light);
-            border: 1px solid var(--glass-border);
-            padding: 0.6rem 1rem;
-            border-radius: 12px 12px 0 12px;
-            font-size: 0.8rem;
-            color: var(--white);
-            font-weight: 500;
-            opacity: 0;
-            transform: translateX(10px);
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-
-        .whatsapp-float:hover .whatsapp-float-label {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .whatsapp-btn {
-            width: 60px;
-            height: 60px;
-            background: #25D366;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            box-shadow: 0 4px 25px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s;
-            animation: pulseWA 2s infinite;
-        }
-
-        .whatsapp-btn svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
-        }
-
-        .whatsapp-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 35px rgba(37, 211, 102, 0.6);
-        }
-
-        @keyframes pulseWA {
-            0%, 100% { box-shadow: 0 4px 25px rgba(37, 211, 102, 0.4); }
-            50% { box-shadow: 0 4px 35px rgba(37, 211, 102, 0.6), 0 0 0 10px rgba(37, 211, 102, 0.1); }
-        }
-
-        /* ═══════════════ SCROLL REVEAL ═══════════════ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-
-        /* ═══════════════ RESPONSIVE ═══════════════ */
-        @media (max-width: 1024px) {
-            .hero-visual { display: none; }
-            .hero-content { max-width: 100%; }
-            .why-us-grid { grid-template-columns: 1fr; }
-            .footer-top { grid-template-columns: 1fr 1fr; }
-            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 768px) {
-            nav { padding: 1rem 1.5rem; }
-            nav.scrolled { padding: 0.7rem 1.5rem; }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 75%;
-                height: 100vh;
-                background: var(--navy-light);
-                flex-direction: column;
-                justify-content: center;
-                padding: 2rem;
-                transition: right 0.4s;
-                border-left: 1px solid var(--glass-border);
-            }
-
-            .nav-links.open { right: 0; }
-
-            .mobile-toggle { display: flex; }
-
-            .hero { padding: 7rem 5% 3rem; }
-            .hero-stats { gap: 1.5rem; flex-wrap: wrap; }
-            .stat-item h3 { font-size: 1.8rem; }
-
-            .services-grid { grid-template-columns: 1fr; }
-            .portfolio-grid { grid-template-columns: 1fr; }
-            .pricing-grid { grid-template-columns: 1fr; }
-            .testimonials-grid { grid-template-columns: 1fr; }
-
-            .process-timeline::before { left: 20px; }
-            .process-step, .process-step:nth-child(even) {
-                flex-direction: column;
-                align-items: flex-start;
-                padding-left: 60px;
-            }
-            .process-step-content { width: 100%; }
-            .process-number {
-                left: 20px;
-                transform: translateX(-50%) scale(0.8);
-            }
-
-            .footer-top { grid-template-columns: 1fr; }
-            .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
-
-            .cursor-dot, .cursor-ring { display: none; }
-
-            .cta-card { padding: 3rem 1.5rem; }
-        }
-
-        /* ═══════════════ COUNTER ANIMATION ═══════════════ */
-        .count-up {
-            display: inline-block;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta Digital Solutions | AI Video Ads & Websites</title>
+<meta name="description" content="Delta Digital Solutions creates stunning AI-powered video advertisements and professional websites that drive real business results.">
+<link rel="icon" type="image/jpeg" href="logo.jpg">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a1628;--navy-light:#121f38;--navy-mid:#1a2d4f;--gold:#F5C518;--gold-light:#FFD84D;--gold-bright:#FFE066;--gold-dark:#D4A017;--gold-glow:rgba(245,197,24,0.6);--white:#f8f6f1;--gray:#8a95a8;--glass:rgba(255,255,255,0.04);--glass-border:rgba(255,255,255,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--gold) var(--navy)}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--white);overflow-x:hidden;line-height:1.7}
+.cursor-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;mix-blend-mode:difference}
+.cursor-ring{width:40px;height:40px;border:1.5px solid var(--gold);border-radius:50%;position:fixed;pointer-events:none;z-index:10000;transition:all .15s ease-out;opacity:.5}
+.cursor-ring.hover{width:60px;height:60px;border-color:var(--gold-bright);opacity:.8}
+#fireCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;padding:1rem 3rem;display:flex;justify-content:space-between;align-items:center;transition:all .4s cubic-bezier(.4,0,.2,1)}
+nav.scrolled{background:rgba(10,22,40,.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border);padding:.7rem 3rem}
+.nav-logo{display:flex;align-items:center;gap:.8rem;text-decoration:none}
+.nav-logo img{height:45px;width:auto;transition:transform .3s}
+.nav-logo:hover img{transform:rotate(-5deg) scale(1.05)}
+.nav-logo-text{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--white);letter-spacing:.5px}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:2.5rem;list-style:none}
+.nav-links a{color:var(--gray);text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--gold);transition:width .3s}
+.nav-links a:hover{color:var(--white)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:linear-gradient(135deg,var(--gold),var(--gold-bright))!important;color:var(--navy)!important;padding:.7rem 1.8rem;border-radius:50px;font-weight:700!important;letter-spacing:1px!important;box-shadow:0 4px 25px var(--gold-glow);transition:all .3s!important}
+.nav-cta::after{display:none!important}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 40px var(--gold-glow)!important}
+.mobile-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;z-index:1001}
+.mobile-toggle span{width:28px;height:2px;background:var(--white);transition:all .3s}
+.mobile-toggle.active span:nth-child(1){transform:rotate(45deg) translate(5px,5px)}
+.mobile-toggle.active span:nth-child(2){opacity:0}
+.mobile-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(5px,-5px)}
+
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;padding:8rem 5% 4rem;overflow:hidden}
+.hero-grid-bg{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(245,197,24,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(245,197,24,.04) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(ellipse at center,black 30%,transparent 70%)}
+.hero-glow{position:absolute;width:700px;height:700px;border-radius:50%;filter:blur(130px);animation:pulseGlow 6s ease-in-out infinite}
+.hero-glow-1{top:-15%;right:5%;background:var(--gold);opacity:.18}
+.hero-glow-2{bottom:-25%;left:-10%;background:#ff6b00;opacity:.1;animation-delay:-3s}
+.hero-glow-3{top:30%;left:40%;background:var(--gold-bright);opacity:.08;width:400px;height:400px;animation-delay:-1.5s}
+@keyframes pulseGlow{0%,100%{transform:scale(1);opacity:.12}50%{transform:scale(1.3);opacity:.22}}
+
+.hero-content{position:relative;z-index:2;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.25);padding:.5rem 1.2rem;border-radius:50px;font-size:.78rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold-bright);margin-bottom:2rem;backdrop-filter:blur(10px);opacity:0;animation:slideUp .8s .2s forwards}
+.hero-badge::before{content:'';width:6px;height:6px;background:var(--gold-bright);border-radius:50%;animation:blink 2s infinite;box-shadow:0 0 10px var(--gold-glow)}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6.5vw,5.5rem);font-weight:800;line-height:1.05;margin-bottom:1.5rem;opacity:0;animation:slideUp 1s .4s forwards}
+.hero h1 .highlight{background:linear-gradient(135deg,var(--gold),var(--gold-bright),#fff8dc);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .line{display:block}
+.hero-desc{font-size:1.15rem;color:var(--gray);max-width:550px;margin-bottom:2.5rem;opacity:0;animation:slideUp 1s .6s forwards}
+.hero-buttons{display:flex;gap:1.2rem;flex-wrap:wrap;opacity:0;animation:slideUp 1s .8s forwards}
+
+.btn-primary{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--navy);padding:1rem 2.2rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:.9rem;letter-spacing:.5px;transition:all .4s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 30px var(--gold-glow),0 0 15px rgba(245,197,24,.2);position:relative;overflow:hidden}
+.btn-primary::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);transition:left .5s}
+.btn-primary:hover::before{left:100%}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 50px var(--gold-glow),0 0 30px rgba(245,197,24,.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:.6rem;border:1.5px solid rgba(245,197,24,.5);color:var(--gold-bright);padding:1rem 2.2rem;border-radius:50px;text-decoration:none;font-weight:600;font-size:.9rem;letter-spacing:.5px;transition:all .4s;background:transparent}
+.btn-outline:hover{background:rgba(245,197,24,.12);border-color:var(--gold-bright);transform:translateY(-3px);box-shadow:0 4px 25px rgba(245,197,24,.15)}
+
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--glass-border);opacity:0;animation:slideUp 1s 1s forwards}
+.stat-item h3{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:800;color:var(--gold-bright);text-shadow:0 0 20px rgba(245,197,24,.3)}
+.stat-item p{font-size:.8rem;color:var(--gray);letter-spacing:1.5px;text-transform:uppercase;margin-top:.3rem}
+
+.hero-visual{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:450px;height:450px;opacity:0;animation:fadeScale 1.2s .5s forwards}
+@keyframes fadeScale{from{opacity:0;transform:translateY(-50%) scale(.8)}to{opacity:1;transform:translateY(-50%) scale(1)}}
+.hero-visual-inner{width:100%;height:100%;position:relative}
+.orbit-ring{position:absolute;border:1px solid rgba(245,197,24,.12);border-radius:50%;animation:spin 30s linear infinite}
+.orbit-ring:nth-child(1){width:100%;height:100%;top:0;left:0}
+.orbit-ring:nth-child(2){width:75%;height:75%;top:12.5%;left:12.5%;animation-duration:20s;animation-direction:reverse}
+.orbit-ring:nth-child(3){width:50%;height:50%;top:25%;left:25%;animation-duration:15s}
+.orbit-dot{position:absolute;width:8px;height:8px;background:var(--gold-bright);border-radius:50%;box-shadow:0 0 20px var(--gold-glow),0 0 40px rgba(245,197,24,.2)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-logo-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:120px;height:120px;border-radius:30px;overflow:hidden;border:2px solid rgba(245,197,24,.4);box-shadow:0 0 60px rgba(245,197,24,.25),0 0 120px rgba(245,197,24,.1)}
+.hero-logo-center img{width:100%;height:100%;object-fit:cover}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+
+.marquee-section{padding:2rem 0;border-top:1px solid var(--glass-border);border-bottom:1px solid var(--glass-border);overflow:hidden;position:relative;z-index:2}
+.marquee-track{display:flex;gap:3rem;animation:marquee 25s linear infinite;width:max-content}
+.marquee-item{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:600;white-space:nowrap;color:rgba(255,255,255,.15);display:flex;align-items:center;gap:3rem}
+.marquee-item .dot{width:6px;height:6px;background:var(--gold-bright);border-radius:50%;opacity:.5;box-shadow:0 0 8px rgba(245,197,24,.4)}
+@keyframes marquee{to{transform:translateX(-50%)}}
+
+section{position:relative;z-index:2}
+.section-label{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--gold-bright);margin-bottom:1rem}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:800;line-height:1.15;margin-bottom:1.2rem}
+.section-desc{color:var(--gray);font-size:1.05rem;max-width:550px}
+
+.services{padding:8rem 5%}
+.services-header{text-align:center;margin-bottom:5rem}
+.services-header .section-desc{margin:0 auto}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:2rem;max-width:1300px;margin:0 auto}
+.service-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;padding:0;position:relative;overflow:hidden;transition:all .5s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-bright),var(--gold));opacity:0;transition:opacity .5s;z-index:2}
+.service-card:hover{background:rgba(255,255,255,.06);border-color:rgba(245,197,24,.25);transform:translateY(-8px)}
+.service-card:hover::before{opacity:1}
+.service-card-img{width:100%;height:200px;object-fit:cover;display:block;border-radius:24px 24px 0 0;transition:transform .6s}
+.service-card:hover .service-card-img{transform:scale(1.05)}
+.service-card-body{padding:2rem 2.5rem 2.5rem}
+.service-icon{width:60px;height:60px;background:linear-gradient(135deg,rgba(245,197,24,.2),rgba(245,197,24,.05));border-radius:16px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;font-size:1.5rem;border:1px solid rgba(245,197,24,.2);box-shadow:0 0 20px rgba(245,197,24,.1)}
+.service-card h3{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1rem}
+.service-card p{color:var(--gray);font-size:.95rem;line-height:1.7;margin-bottom:1.5rem}
+.service-features{display:flex;flex-wrap:wrap;gap:.5rem}
+.service-tag{font-size:.72rem;padding:.35rem .9rem;background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.2);border-radius:50px;color:var(--gold-bright);letter-spacing:.5px}
+
+.why-us{padding:6rem 5% 8rem;background:linear-gradient(180deg,transparent,rgba(245,197,24,.02),transparent)}
+.why-us-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;max-width:1300px;margin:0 auto;align-items:center}
+.why-us-features{display:grid;gap:1.5rem}
+.why-feature{display:flex;gap:1.2rem;padding:1.5rem;background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;transition:all .4s}
+.why-feature:hover{border-color:rgba(245,197,24,.25);background:rgba(255,255,255,.05)}
+.why-feature-icon{width:48px;height:48px;min-width:48px;background:linear-gradient(135deg,rgba(245,197,24,.15),transparent);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;border:1px solid rgba(245,197,24,.15)}
+.why-feature h4{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.4rem}
+.why-feature p{font-size:.88rem;color:var(--gray)}
+
+.process{padding:8rem 5%}
+.process-header{text-align:center;margin-bottom:5rem}
+.process-header .section-desc{margin:0 auto}
+.process-timeline{max-width:1000px;margin:0 auto;position:relative}
+.process-timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--gold),var(--gold),transparent);opacity:.25}
+.process-step{display:flex;align-items:center;margin-bottom:3rem;position:relative}
+.process-step:nth-child(even){flex-direction:row-reverse}
+.process-step-content{width:45%;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:2rem 2.2rem;transition:all .4s}
+.process-step-content:hover{border-color:rgba(245,197,24,.25);transform:translateY(-4px)}
+.process-number{position:absolute;left:50%;transform:translateX(-50%);width:50px;height:50px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:800;color:var(--navy);z-index:2;box-shadow:0 0 35px var(--gold-glow)}
+.process-step-content h4{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.5rem}
+.process-step-content p{color:var(--gray);font-size:.9rem}
+
+.portfolio{padding:8rem 5%;background:linear-gradient(180deg,transparent,rgba(26,107,122,.03),transparent)}
+.portfolio-header{text-align:center;margin-bottom:4rem}
+.portfolio-header .section-desc{margin:0 auto}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1300px;margin:0 auto}
+.portfolio-card{aspect-ratio:4/3;background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;overflow:hidden;position:relative;cursor:pointer;transition:all .5s}
+.portfolio-card:hover{transform:scale(1.03);border-color:rgba(245,197,24,.3)}
+.portfolio-card img{width:100%;height:100%;object-fit:cover;transition:transform .6s,filter .6s;filter:brightness(.7)}
+.portfolio-card:hover img{transform:scale(1.08);filter:brightness(.85)}
+.portfolio-overlay{position:absolute;bottom:0;left:0;right:0;padding:2rem;background:linear-gradient(to top,rgba(10,22,40,.95),rgba(10,22,40,.4),transparent);transform:translateY(10px);opacity:0;transition:all .4s}
+.portfolio-card:hover .portfolio-overlay{transform:translateY(0);opacity:1}
+.portfolio-overlay h4{font-family:'Playfair Display',serif;font-size:1.1rem;margin-bottom:.3rem}
+.portfolio-overlay p{color:var(--gray);font-size:.82rem}
+.portfolio-overlay-tag{display:inline-block;margin-top:.5rem;background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);padding:.2rem .7rem;border-radius:50px;font-size:.68rem;color:var(--gold-bright);letter-spacing:1px;text-transform:uppercase}
+
+.pricing{padding:8rem 5%}
+.pricing-header{text-align:center;margin-bottom:4rem}
+.pricing-header .section-desc{margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:2rem;max-width:1100px;margin:0 auto}
+.pricing-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;padding:3rem 2.5rem;text-align:center;position:relative;overflow:hidden;transition:all .5s}
+.pricing-card.featured{border-color:rgba(245,197,24,.35);background:linear-gradient(180deg,rgba(245,197,24,.08),var(--glass))}
+.pricing-card.featured::before{content:'MOST POPULAR';position:absolute;top:20px;right:-35px;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--navy);font-size:.6rem;font-weight:800;letter-spacing:2px;padding:.4rem 3rem;transform:rotate(45deg)}
+.pricing-card:hover{transform:translateY(-8px);border-color:rgba(245,197,24,.35)}
+.pricing-card h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:.5rem}
+.pricing-card .price{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:var(--gold-bright);margin:1rem 0;text-shadow:0 0 25px rgba(245,197,24,.2)}
+.pricing-card .price span{font-size:1rem;color:var(--gray);font-family:'DM Sans',sans-serif;font-weight:400}
+.pricing-card .price-desc{color:var(--gray);font-size:.85rem;margin-bottom:2rem}
+.pricing-features{text-align:left;margin-bottom:2rem}
+.pricing-features li{list-style:none;padding:.5rem 0;color:var(--gray);font-size:.9rem;display:flex;align-items:center;gap:.7rem}
+.pricing-features li::before{content:'\2726';color:var(--gold-bright);font-size:.7rem}
+.pricing-btn{display:block;width:100%;padding:1rem;border-radius:50px;text-decoration:none;font-weight:700;font-size:.85rem;letter-spacing:1px;text-transform:uppercase;transition:all .4s;text-align:center}
+.pricing-btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--navy);box-shadow:0 4px 25px var(--gold-glow)}
+.pricing-btn-outline{border:1.5px solid rgba(245,197,24,.35);color:var(--gold-bright)}
+.pricing-btn:hover{transform:translateY(-2px);box-shadow:0 8px 35px var(--gold-glow)}
+
+.testimonials{padding:8rem 5%;background:linear-gradient(180deg,transparent,rgba(245,197,24,.02),transparent)}
+.testimonials-header{text-align:center;margin-bottom:4rem}
+.testimonials-header .section-desc{margin:0 auto}
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:2rem;max-width:1200px;margin:0 auto}
+.testimonial-card{background:var(--glass);border:1px solid var(--glass-border);border-radius:20px;padding:2.5rem;transition:all .4s}
+.testimonial-card:hover{border-color:rgba(245,197,24,.25);transform:translateY(-4px)}
+.testimonial-stars{color:var(--gold-bright);font-size:.9rem;margin-bottom:1.2rem;letter-spacing:3px}
+.testimonial-text{font-size:1rem;line-height:1.7;color:rgba(248,246,241,.85);margin-bottom:1.5rem;font-style:italic}
+.testimonial-author{display:flex;align-items:center;gap:1rem}
+.testimonial-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-bright));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-weight:700;font-size:1.1rem;color:var(--navy)}
+.testimonial-author-info h5{font-size:.95rem;font-weight:600}
+.testimonial-author-info p{font-size:.78rem;color:var(--gray)}
+
+.cta{padding:8rem 5%;text-align:center}
+.cta-card{max-width:900px;margin:0 auto;background:linear-gradient(135deg,var(--navy-mid),var(--navy-light));border:1px solid rgba(245,197,24,.25);border-radius:32px;padding:5rem 3rem;position:relative;overflow:hidden}
+.cta-card::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at center,rgba(245,197,24,.08),transparent 50%);animation:rotateBg 15s linear infinite}
+@keyframes rotateBg{to{transform:rotate(360deg)}}
+.cta-card>*{position:relative;z-index:2}
+.cta h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:800;margin-bottom:1rem}
+.cta p{color:var(--gray);font-size:1.1rem;max-width:500px;margin:0 auto 2.5rem}
+.cta-buttons{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap}
+
+footer{padding:4rem 5% 2rem;border-top:1px solid var(--glass-border);position:relative;z-index:2}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand img{height:50px;margin-bottom:1rem}
+.footer-brand p{color:var(--gray);font-size:.9rem;max-width:300px;line-height:1.7}
+.footer-col h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:1.2rem}
+.footer-col a{display:block;color:var(--gray);text-decoration:none;font-size:.88rem;padding:.3rem 0;transition:color .3s}
+.footer-col a:hover{color:var(--gold-bright)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:2rem;border-top:1px solid var(--glass-border)}
+.footer-bottom p{color:var(--gray);font-size:.8rem}
+.footer-socials{display:flex;gap:1rem}
+.footer-socials a{width:40px;height:40px;border-radius:50%;border:1px solid var(--glass-border);display:flex;align-items:center;justify-content:center;color:var(--gray);text-decoration:none;font-size:1rem;transition:all .3s}
+.footer-socials a:hover{border-color:var(--gold);color:var(--gold-bright);background:rgba(245,197,24,.1);box-shadow:0 0 15px rgba(245,197,24,.15)}
+
+.whatsapp-float{position:fixed;bottom:30px;right:30px;z-index:999;display:flex;align-items:center;gap:.8rem}
+.whatsapp-float-label{background:var(--navy-light);border:1px solid var(--glass-border);padding:.6rem 1rem;border-radius:12px 12px 0 12px;font-size:.8rem;color:var(--white);font-weight:500;opacity:0;transform:translateX(10px);transition:all .3s;white-space:nowrap}
+.whatsapp-float:hover .whatsapp-float-label{opacity:1;transform:translateX(0)}
+.whatsapp-btn{width:60px;height:60px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;box-shadow:0 4px 25px rgba(37,211,102,.4);transition:all .3s;animation:pulseWA 2s infinite}
+.whatsapp-btn svg{width:30px;height:30px;fill:white}
+.whatsapp-btn:hover{transform:scale(1.1);box-shadow:0 8px 35px rgba(37,211,102,.6)}
+@keyframes pulseWA{0%,100%{box-shadow:0 4px 25px rgba(37,211,102,.4)}50%{box-shadow:0 4px 35px rgba(37,211,102,.6),0 0 0 10px rgba(37,211,102,.1)}}
+
+.reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.4,0,.2,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+.reveal-delay-4{transition-delay:.4s}
+
+@media(max-width:1024px){.hero-visual{display:none}.hero-content{max-width:100%}.why-us-grid{grid-template-columns:1fr}.footer-top{grid-template-columns:1fr 1fr}.portfolio-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:768px){nav{padding:1rem 1.5rem}nav.scrolled{padding:.7rem 1.5rem}.nav-links{position:fixed;top:0;right:-100%;width:75%;height:100vh;background:var(--navy-light);flex-direction:column;justify-content:center;padding:2rem;transition:right .4s;border-left:1px solid var(--glass-border)}.nav-links.open{right:0}.mobile-toggle{display:flex}.hero{padding:7rem 5% 3rem}.hero-stats{gap:1.5rem;flex-wrap:wrap}.stat-item h3{font-size:1.8rem}.services-grid{grid-template-columns:1fr}.portfolio-grid{grid-template-columns:1fr}.pricing-grid{grid-template-columns:1fr}.testimonials-grid{grid-template-columns:1fr}.process-timeline::before{left:20px}.process-step,.process-step:nth-child(even){flex-direction:column;align-items:flex-start;padding-left:60px}.process-step-content{width:100%}.process-number{left:20px;transform:translateX(-50%) scale(.8)}.footer-top{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:1rem;text-align:center}.cursor-dot,.cursor-ring{display:none}.cta-card{padding:3rem 1.5rem}}
+</style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor-dot" id="cursorDot"></div>
-    <div class="cursor-ring" id="cursorRing"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<canvas id="fireCanvas"></canvas>
 
-    <!-- Background Particles -->
-    <div class="bg-particles" id="particles"></div>
+<nav id="navbar">
+    <a href="#" class="nav-logo"><img src="logo.jpg" alt="Delta Digital Solutions"><div class="nav-logo-text">Delta <span>Digital</span></div></a>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#portfolio">Work</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'm%20interested%20in%20your%20services." class="nav-cta" target="_blank">Get Quote</a></li>
+    </ul>
+    <div class="mobile-toggle" id="mobileToggle"><span></span><span></span><span></span></div>
+</nav>
 
-    <!-- Navigation -->
-    <nav id="navbar">
-        <a href="#" class="nav-logo">
-            <img src="logo.jpg" alt="Delta Digital Solutions">
-            <div class="nav-logo-text">Delta <span>Digital</span></div>
-        </a>
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#services">Services</a></li>
-            <li><a href="#process">Process</a></li>
-            <li><a href="#portfolio">Work</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#testimonials">Reviews</a></li>
-            <li><a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'm%20interested%20in%20your%20services." class="nav-cta" target="_blank">Get Quote</a></li>
-        </ul>
-        <div class="mobile-toggle" id="mobileToggle">
-            <span></span><span></span><span></span>
+<section class="hero" id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-glow hero-glow-1"></div>
+    <div class="hero-glow hero-glow-2"></div>
+    <div class="hero-glow hero-glow-3"></div>
+    <div class="hero-content">
+        <div class="hero-badge">AI-Powered Creative Studio</div>
+        <h1><span class="line">We Create</span><span class="line"><span class="highlight">Stunning AI</span></span><span class="line">Video Ads</span></h1>
+        <p class="hero-desc">Realistic, cinematic AI video advertisements and high-converting websites that transform your brand presence and drive measurable growth.</p>
+        <div class="hero-buttons">
+            <a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'd%20like%20to%20discuss%20a%20project." class="btn-primary" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Chat on WhatsApp</a>
+            <a href="#services" class="btn-outline">Explore Services <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg></a>
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="hero-grid-bg"></div>
-        <div class="hero-glow hero-glow-1"></div>
-        <div class="hero-glow hero-glow-2"></div>
-
-        <div class="hero-content">
-            <div class="hero-badge">AI-Powered Creative Studio</div>
-            <h1>
-                <span class="line">We Create</span>
-                <span class="line"><span class="highlight">Stunning AI</span></span>
-                <span class="line">Video Ads</span>
-            </h1>
-            <p class="hero-desc">Realistic, cinematic AI video advertisements and high-converting websites that transform your brand presence and drive measurable growth.</p>
-            <div class="hero-buttons">
-                <a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'd%20like%20to%20discuss%20a%20project." class="btn-primary" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    Chat on WhatsApp
-                </a>
-                <a href="#services" class="btn-outline">
-                    Explore Services
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
-                </a>
-            </div>
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <h3><span class="count-up" data-target="50">0</span>+</h3>
-                    <p>Videos Delivered</p>
-                </div>
-                <div class="stat-item">
-                    <h3><span class="count-up" data-target="30">0</span>+</h3>
-                    <p>Happy Clients</p>
-                </div>
-                <div class="stat-item">
-                    <h3><span class="count-up" data-target="25">0</span>+</h3>
-                    <p>Industries Served</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="hero-visual">
-            <div class="hero-visual-inner">
-                <div class="orbit-ring">
-                    <div class="orbit-dot" style="top:0;left:50%;"></div>
-                </div>
-                <div class="orbit-ring">
-                    <div class="orbit-dot" style="bottom:0;right:0;"></div>
-                </div>
-                <div class="orbit-ring">
-                    <div class="orbit-dot" style="top:50%;left:0;"></div>
-                </div>
-                <div class="hero-logo-center">
-                    <img src="logo.jpg" alt="Delta Digital Solutions Logo">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Marquee -->
-    <div class="marquee-section">
-        <div class="marquee-track">
-            <div class="marquee-item">AI Video Ads <span class="dot"></span></div>
-            <div class="marquee-item">Business Websites <span class="dot"></span></div>
-            <div class="marquee-item">Brand Strategy <span class="dot"></span></div>
-            <div class="marquee-item">Social Media Ads <span class="dot"></span></div>
-            <div class="marquee-item">Cinematic Productions <span class="dot"></span></div>
-            <div class="marquee-item">Digital Marketing <span class="dot"></span></div>
-            <div class="marquee-item">AI Video Ads <span class="dot"></span></div>
-            <div class="marquee-item">Business Websites <span class="dot"></span></div>
-            <div class="marquee-item">Brand Strategy <span class="dot"></span></div>
-            <div class="marquee-item">Social Media Ads <span class="dot"></span></div>
-            <div class="marquee-item">Cinematic Productions <span class="dot"></span></div>
-            <div class="marquee-item">Digital Marketing <span class="dot"></span></div>
+        <div class="hero-stats">
+            <div class="stat-item"><h3><span class="count-up" data-target="50">0</span>+</h3><p>Videos Delivered</p></div>
+            <div class="stat-item"><h3><span class="count-up" data-target="30">0</span>+</h3><p>Happy Clients</p></div>
+            <div class="stat-item"><h3><span class="count-up" data-target="25">0</span>+</h3><p>Industries Served</p></div>
         </div>
     </div>
+    <div class="hero-visual"><div class="hero-visual-inner">
+        <div class="orbit-ring"><div class="orbit-dot" style="top:0;left:50%"></div></div>
+        <div class="orbit-ring"><div class="orbit-dot" style="bottom:0;right:0"></div></div>
+        <div class="orbit-ring"><div class="orbit-dot" style="top:50%;left:0"></div></div>
+        <div class="hero-logo-center"><img src="logo.jpg" alt="Logo"></div>
+    </div></div>
+</section>
 
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <div class="services-header reveal">
-            <p class="section-label">What We Do</p>
-            <h2 class="section-title">Services Crafted for <br><span style="color:var(--gold)">Modern Businesses</span></h2>
-            <p class="section-desc">We combine cutting-edge AI technology with creative storytelling to deliver results that matter.</p>
-        </div>
+<div class="marquee-section"><div class="marquee-track">
+    <div class="marquee-item">AI Video Ads <span class="dot"></span></div><div class="marquee-item">Business Websites <span class="dot"></span></div><div class="marquee-item">Brand Strategy <span class="dot"></span></div><div class="marquee-item">Social Media Ads <span class="dot"></span></div><div class="marquee-item">Cinematic Productions <span class="dot"></span></div><div class="marquee-item">Digital Marketing <span class="dot"></span></div><div class="marquee-item">AI Video Ads <span class="dot"></span></div><div class="marquee-item">Business Websites <span class="dot"></span></div><div class="marquee-item">Brand Strategy <span class="dot"></span></div><div class="marquee-item">Social Media Ads <span class="dot"></span></div><div class="marquee-item">Cinematic Productions <span class="dot"></span></div><div class="marquee-item">Digital Marketing <span class="dot"></span></div>
+</div></div>
 
-        <div class="services-grid">
-            <div class="service-card reveal reveal-delay-1">
-                <div class="service-icon">🎬</div>
-                <h3>AI Video Advertisements</h3>
-                <p>Hyper-realistic, cinematic AI-generated video ads that captivate audiences and drive conversions. We create professional business explainer videos that look like they were produced by a full film crew.</p>
-                <div class="service-features">
-                    <span class="service-tag">Veo 3 Ultra</span>
-                    <span class="service-tag">Kling AI</span>
-                    <span class="service-tag">4K Quality</span>
-                    <span class="service-tag">Cinematic</span>
-                    <span class="service-tag">30-60 sec Ads</span>
-                </div>
-            </div>
-
-            <div class="service-card reveal reveal-delay-2">
-                <div class="service-icon">🌐</div>
-                <h3>Website Development</h3>
-                <p>Modern, blazing-fast websites built with the latest technologies. From landing pages to full e-commerce platforms — designed to convert visitors into customers.</p>
-                <div class="service-features">
-                    <span class="service-tag">Responsive</span>
-                    <span class="service-tag">SEO Optimized</span>
-                    <span class="service-tag">Fast Loading</span>
-                    <span class="service-tag">Modern UI</span>
-                    <span class="service-tag">Analytics</span>
-                </div>
-            </div>
-
-            <div class="service-card reveal reveal-delay-3">
-                <div class="service-icon">📱</div>
-                <h3>Social Media Ads</h3>
-                <p>Scroll-stopping video content optimized for Instagram, Facebook, YouTube & LinkedIn. AI-powered creatives that are designed to maximise engagement and ROI.</p>
-                <div class="service-features">
-                    <span class="service-tag">Instagram Reels</span>
-                    <span class="service-tag">YouTube Ads</span>
-                    <span class="service-tag">Meta Ads</span>
-                    <span class="service-tag">Google Ads</span>
-                </div>
-            </div>
-
-            <div class="service-card reveal reveal-delay-4">
-                <div class="service-icon">🎯</div>
-                <h3>Brand Identity & Strategy</h3>
-                <p>Complete brand positioning with AI-enhanced visual identity, messaging frameworks, and go-to-market strategies that set you apart from competitors.</p>
-                <div class="service-features">
-                    <span class="service-tag">Logo Design</span>
-                    <span class="service-tag">Brand Guide</span>
-                    <span class="service-tag">Visual Identity</span>
-                    <span class="service-tag">Strategy</span>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Why Choose Us -->
-    <section class="why-us" id="why-us">
-        <div class="why-us-grid">
-            <div class="reveal">
-                <p class="section-label">Why Delta Digital</p>
-                <h2 class="section-title">AI Technology Meets <span style="color:var(--gold)">Creative Excellence</span></h2>
-                <p class="section-desc" style="margin-bottom:2rem;">We don't just create content — we engineer digital experiences that move people to action.</p>
-                <a href="https://wa.me/916369645372?text=Hi!%20I'd%20like%20to%20know%20more%20about%20Delta%20Digital%20Solutions." class="btn-primary" target="_blank">
-                    Let's Talk →
-                </a>
-            </div>
-            <div class="why-us-features">
-                <div class="why-feature reveal reveal-delay-1">
-                    <div class="why-feature-icon">⚡</div>
-                    <div>
-                        <h4>Lightning Fast Delivery</h4>
-                        <p>Most projects delivered within 48-72 hours. We value your time as much as quality.</p>
-                    </div>
-                </div>
-                <div class="why-feature reveal reveal-delay-2">
-                    <div class="why-feature-icon">🤖</div>
-                    <div>
-                        <h4>Cutting-Edge AI Tools</h4>
-                        <p>Powered by the latest AI models — Veo 3, Kling AI, and proprietary workflows.</p>
-                    </div>
-                </div>
-                <div class="why-feature reveal reveal-delay-3">
-                    <div class="why-feature-icon">💎</div>
-                    <div>
-                        <h4>Realistic & Cinematic</h4>
-                        <p>Our videos are indistinguishable from real footage. No cheap AI-looking content.</p>
-                    </div>
-                </div>
-                <div class="why-feature reveal reveal-delay-4">
-                    <div class="why-feature-icon">🎯</div>
-                    <div>
-                        <h4>ROI-Focused</h4>
-                        <p>Every piece of content is designed to convert viewers into paying customers.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Process Section -->
-    <section class="process" id="process">
-        <div class="process-header reveal">
-            <p class="section-label">Our Process</p>
-            <h2 class="section-title">From Vision to <span style="color:var(--gold)">Viral Reality</span></h2>
-            <p class="section-desc">A streamlined 4-step process that transforms your ideas into high-impact digital assets.</p>
-        </div>
-
-        <div class="process-timeline">
-            <div class="process-step reveal">
-                <div class="process-step-content">
-                    <h4>Discovery & Brief</h4>
-                    <p>We dive deep into your brand, audience, and goals. You share your vision via WhatsApp — we handle the rest.</p>
-                </div>
-                <div class="process-number">1</div>
-                <div style="width:45%"></div>
-            </div>
-            <div class="process-step reveal">
-                <div style="width:45%"></div>
-                <div class="process-number">2</div>
-                <div class="process-step-content">
-                    <h4>Script & Storyboard</h4>
-                    <p>Our team crafts compelling scripts and visual storyboards that align with your brand message and campaign goals.</p>
-                </div>
-            </div>
-            <div class="process-step reveal">
-                <div class="process-step-content">
-                    <h4>AI Production</h4>
-                    <p>Using Veo 3, Kling AI, and our proprietary workflows, we generate hyper-realistic video content that stuns.</p>
-                </div>
-                <div class="process-number">3</div>
-                <div style="width:45%"></div>
-            </div>
-            <div class="process-step reveal">
-                <div style="width:45%"></div>
-                <div class="process-number">4</div>
-                <div class="process-step-content">
-                    <h4>Delivery & Support</h4>
-                    <p>Final assets delivered in all formats. Free revisions included. We're with you through the entire campaign.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Portfolio Section -->
-    <section class="portfolio" id="portfolio">
-        <div class="portfolio-header reveal">
-            <p class="section-label">Our Work</p>
-            <h2 class="section-title">Projects That <span style="color:var(--gold)">Speak Results</span></h2>
-            <p class="section-desc">A glimpse into the diverse industries we've transformed with AI-powered creative solutions.</p>
-        </div>
-
-        <div class="portfolio-grid">
-            <div class="portfolio-card reveal reveal-delay-1">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #1a2a4a, #0d1929);">
-                    <span class="emoji-display">✈️</span>
-                    <div class="portfolio-overlay">
-                        <h4>Airport Meet & Greet</h4>
-                        <p>AI Video Ad • Global Airport Services</p>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-card reveal reveal-delay-2">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #2a1a3a, #1a0d29);">
-                    <span class="emoji-display">🏋️</span>
-                    <div class="portfolio-overlay">
-                        <h4>Premium Fitness Brand</h4>
-                        <p>Explainer Video • Gym Chain</p>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-card reveal reveal-delay-3">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #1a3a2a, #0d291a);">
-                    <span class="emoji-display">🏠</span>
-                    <div class="portfolio-overlay">
-                        <h4>Luxury Real Estate</h4>
-                        <p>Property Showcase • AI Walkthrough</p>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-card reveal reveal-delay-1">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #3a2a1a, #291a0d);">
-                    <span class="emoji-display">🎓</span>
-                    <div class="portfolio-overlay">
-                        <h4>Aviation Academy</h4>
-                        <p>Brand Video • UniAviation Academy</p>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-card reveal reveal-delay-2">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #1a2a3a, #0d1a29);">
-                    <span class="emoji-display">🛒</span>
-                    <div class="portfolio-overlay">
-                        <h4>FMCG Product Launch</h4>
-                        <p>Social Media Ads • Consumer Brand</p>
-                    </div>
-                </div>
-            </div>
-            <div class="portfolio-card reveal reveal-delay-3">
-                <div class="portfolio-card-bg" style="background:linear-gradient(135deg, #2a3a1a, #1a290d);">
-                    <span class="emoji-display">💼</span>
-                    <div class="portfolio-overlay">
-                        <h4>Corporate Website</h4>
-                        <p>Web Development • Tech Startup</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing Section -->
-    <section class="pricing" id="pricing">
-        <div class="pricing-header reveal">
-            <p class="section-label">Pricing</p>
-            <h2 class="section-title">Transparent <span style="color:var(--gold)">Investment Plans</span></h2>
-            <p class="section-desc">Affordable packages designed for businesses of every size. All prices in INR.</p>
-        </div>
-
-        <div class="pricing-grid">
-            <div class="pricing-card reveal reveal-delay-1">
-                <h3>Starter</h3>
-                <div class="price">₹1,750<span> /video</span></div>
-                <p class="price-desc">Perfect for small businesses getting started</p>
-                <ul class="pricing-features">
-                    <li>15-30 sec AI Video Ad</li>
-                    <li>Script & Storyboarding</li>
-                    <li>Background Music & SFX</li>
-                    <li>1 Revision Round</li>
-                    <li>Delivery in 48 hours</li>
-                </ul>
-                <a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20the%20Starter%20package." class="pricing-btn pricing-btn-outline" target="_blank">Get Started</a>
-            </div>
-
-            <div class="pricing-card featured reveal reveal-delay-2">
-                <h3>Professional</h3>
-                <div class="price">₹5,000<span> /video</span></div>
-                <p class="price-desc">For brands that want premium impact</p>
-                <ul class="pricing-features">
-                    <li>30-60 sec Cinematic AI Video</li>
-                    <li>Custom Script & Voiceover</li>
-                    <li>Multi-scene Storyboard</li>
-                    <li>3 Revision Rounds</li>
-                    <li>Social Media Formats Included</li>
-                    <li>Priority Delivery</li>
-                </ul>
-                <a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20the%20Professional%20package." class="pricing-btn pricing-btn-primary" target="_blank">Get Started</a>
-            </div>
-
-            <div class="pricing-card reveal reveal-delay-3">
-                <h3>Website</h3>
-                <div class="price">₹10,000<span>+</span></div>
-                <p class="price-desc">Full website design & development</p>
-                <ul class="pricing-features">
-                    <li>Custom Modern Design</li>
-                    <li>Mobile Responsive</li>
-                    <li>SEO Optimization</li>
-                    <li>Contact Forms & WhatsApp</li>
-                    <li>Free 1 Month Support</li>
-                    <li>Analytics Setup</li>
-                </ul>
-                <a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20Website%20development." class="pricing-btn pricing-btn-outline" target="_blank">Get Started</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials" id="testimonials">
-        <div class="testimonials-header reveal">
-            <p class="section-label">Testimonials</p>
-            <h2 class="section-title">What Our <span style="color:var(--gold)">Clients Say</span></h2>
-            <p class="section-desc">Real feedback from businesses we've helped grow.</p>
-        </div>
-
-        <div class="testimonials-grid">
-            <div class="testimonial-card reveal reveal-delay-1">
-                <div class="testimonial-stars">★ ★ ★ ★ ★</div>
-                <p class="testimonial-text">"The AI video ad Delta Digital created for our meet & greet service was incredible. It looked like a real film production. Our customer inquiries doubled within a month!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">R</div>
-                    <div class="testimonial-author-info">
-                        <h5>Rajan K.</h5>
-                        <p>Airport Services Director</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card reveal reveal-delay-2">
-                <div class="testimonial-stars">★ ★ ★ ★ ★</div>
-                <p class="testimonial-text">"We needed a professional promotional video for our aviation academy. The quality was beyond expectations — students genuinely thought it was filmed with real cameras."</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">S</div>
-                    <div class="testimonial-author-info">
-                        <h5>Suresh M.</h5>
-                        <p>UniAviation Academy</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="testimonial-card reveal reveal-delay-3">
-                <div class="testimonial-stars">★ ★ ★ ★ ★</div>
-                <p class="testimonial-text">"Fast turnaround, professional quality, and amazing attention to detail. Delta Digital delivered our website and video ads on time with zero hassle. Highly recommended!"</p>
-                <div class="testimonial-author">
-                    <div class="testimonial-avatar">P</div>
-                    <div class="testimonial-author-info">
-                        <h5>Priya D.</h5>
-                        <p>FMCG Brand Owner</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-        <div class="cta-card reveal">
-            <p class="section-label">Ready to Start?</p>
-            <h2>Let's Build Something <span style="color:var(--gold)">Extraordinary</span></h2>
-            <p>Drop us a message on WhatsApp and get a free consultation. No obligations, just great ideas.</p>
-            <div class="cta-buttons">
-                <a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'd%20love%20a%20free%20consultation." class="btn-primary" target="_blank">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    Free Consultation
-                </a>
-                <a href="#services" class="btn-outline">View Services</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="footer-top">
-            <div class="footer-brand">
-                <img src="logo.jpg" alt="Delta Digital Solutions">
-                <p>AI-powered creative studio delivering realistic video advertisements and stunning websites for modern businesses across India.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Services</h4>
-                <a href="#services">AI Video Ads</a>
-                <a href="#services">Website Development</a>
-                <a href="#services">Social Media Ads</a>
-                <a href="#services">Brand Identity</a>
-            </div>
-            <div class="footer-col">
-                <h4>Company</h4>
-                <a href="#process">Our Process</a>
-                <a href="#portfolio">Portfolio</a>
-                <a href="#pricing">Pricing</a>
-                <a href="#testimonials">Testimonials</a>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <a href="https://wa.me/916369645372" target="_blank">WhatsApp</a>
-                <a href="tel:+916369645372">+91 63696 45372</a>
-                <a href="https://deltadigitalsolutions.in">deltadigitalsolutions.in</a>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Delta Digital Solutions. All rights reserved.</p>
-            <div class="footer-socials">
-                <a href="https://wa.me/916369645372" target="_blank" aria-label="WhatsApp">💬</a>
-                <a href="#" aria-label="Instagram">📸</a>
-                <a href="#" aria-label="YouTube">▶️</a>
-            </div>
-        </div>
-    </footer>
-
-    <!-- WhatsApp Floating Button -->
-    <div class="whatsapp-float">
-        <div class="whatsapp-float-label">Chat with us!</div>
-        <a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'm%20interested%20in%20your%20services." class="whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
-            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
+<section class="services" id="services">
+    <div class="services-header reveal"><p class="section-label">What We Do</p><h2 class="section-title">Services Crafted for <br><span style="color:var(--gold-bright)">Modern Businesses</span></h2><p class="section-desc">We combine cutting-edge AI technology with creative storytelling to deliver results that matter.</p></div>
+    <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1"><img class="service-card-img" src="https://images.unsplash.com/photo-1536240478700-b869070f9279?w=600&h=300&fit=crop" alt="Video Production"><div class="service-card-body"><div class="service-icon">&#127916;</div><h3>AI Video Advertisements</h3><p>Hyper-realistic, cinematic AI-generated video ads that captivate audiences and drive conversions. Professional business explainer videos that look like full film productions.</p><div class="service-features"><span class="service-tag">Veo 3 Ultra</span><span class="service-tag">Kling AI</span><span class="service-tag">4K Quality</span><span class="service-tag">Cinematic</span><span class="service-tag">30-60 sec Ads</span></div></div></div>
+        <div class="service-card reveal reveal-delay-2"><img class="service-card-img" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=300&fit=crop" alt="Web Development"><div class="service-card-body"><div class="service-icon">&#127760;</div><h3>Website Development</h3><p>Modern, blazing-fast websites built with the latest technologies. From landing pages to full platforms designed to convert visitors into customers.</p><div class="service-features"><span class="service-tag">Responsive</span><span class="service-tag">SEO Optimized</span><span class="service-tag">Fast Loading</span><span class="service-tag">Modern UI</span><span class="service-tag">Analytics</span></div></div></div>
+        <div class="service-card reveal reveal-delay-3"><img class="service-card-img" src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=300&fit=crop" alt="Social Media"><div class="service-card-body"><div class="service-icon">&#128241;</div><h3>Social Media Ads</h3><p>Scroll-stopping video content optimized for Instagram, Facebook, YouTube and LinkedIn. AI-powered creatives designed to maximise engagement and ROI.</p><div class="service-features"><span class="service-tag">Instagram Reels</span><span class="service-tag">YouTube Ads</span><span class="service-tag">Meta Ads</span><span class="service-tag">Google Ads</span></div></div></div>
+        <div class="service-card reveal reveal-delay-4"><img class="service-card-img" src="https://images.unsplash.com/photo-1634942537034-2531766767d1?w=600&h=300&fit=crop" alt="Brand Identity"><div class="service-card-body"><div class="service-icon">&#127919;</div><h3>Brand Identity & Strategy</h3><p>Complete brand positioning with AI-enhanced visual identity, messaging frameworks, and go-to-market strategies that set you apart.</p><div class="service-features"><span class="service-tag">Logo Design</span><span class="service-tag">Brand Guide</span><span class="service-tag">Visual Identity</span><span class="service-tag">Strategy</span></div></div></div>
     </div>
+</section>
 
-    <script>
-        // ═══════════════ CUSTOM CURSOR ═══════════════
-        const dot = document.getElementById('cursorDot');
-        const ring = document.getElementById('cursorRing');
+<section class="why-us" id="why-us"><div class="why-us-grid">
+    <div class="reveal"><p class="section-label">Why Delta Digital</p><h2 class="section-title">AI Technology Meets <span style="color:var(--gold-bright)">Creative Excellence</span></h2><p class="section-desc" style="margin-bottom:2rem">We don't just create content — we engineer digital experiences that move people to action.</p><a href="https://wa.me/916369645372?text=Hi!%20I'd%20like%20to%20know%20more%20about%20Delta%20Digital%20Solutions." class="btn-primary" target="_blank">Let's Talk &rarr;</a></div>
+    <div class="why-us-features">
+        <div class="why-feature reveal reveal-delay-1"><div class="why-feature-icon">&#9889;</div><div><h4>Lightning Fast Delivery</h4><p>Most projects delivered within 48-72 hours. We value your time as much as quality.</p></div></div>
+        <div class="why-feature reveal reveal-delay-2"><div class="why-feature-icon">&#129302;</div><div><h4>Cutting-Edge AI Tools</h4><p>Powered by the latest AI models — Veo 3, Kling AI, and proprietary workflows.</p></div></div>
+        <div class="why-feature reveal reveal-delay-3"><div class="why-feature-icon">&#128142;</div><div><h4>Realistic & Cinematic</h4><p>Our videos are indistinguishable from real footage. No cheap AI-looking content.</p></div></div>
+        <div class="why-feature reveal reveal-delay-4"><div class="why-feature-icon">&#127919;</div><div><h4>ROI-Focused</h4><p>Every piece of content is designed to convert viewers into paying customers.</p></div></div>
+    </div>
+</div></section>
 
-        document.addEventListener('mousemove', (e) => {
-            dot.style.left = e.clientX - 4 + 'px';
-            dot.style.top = e.clientY - 4 + 'px';
-            ring.style.left = e.clientX - 20 + 'px';
-            ring.style.top = e.clientY - 20 + 'px';
-        });
+<section class="process" id="process">
+    <div class="process-header reveal"><p class="section-label">Our Process</p><h2 class="section-title">From Vision to <span style="color:var(--gold-bright)">Viral Reality</span></h2><p class="section-desc">A streamlined 4-step process that transforms your ideas into high-impact digital assets.</p></div>
+    <div class="process-timeline">
+        <div class="process-step reveal"><div class="process-step-content"><h4>Discovery & Brief</h4><p>We dive deep into your brand, audience, and goals. You share your vision via WhatsApp — we handle the rest.</p></div><div class="process-number">1</div><div style="width:45%"></div></div>
+        <div class="process-step reveal"><div style="width:45%"></div><div class="process-number">2</div><div class="process-step-content"><h4>Script & Storyboard</h4><p>Our team crafts compelling scripts and visual storyboards that align with your brand message and campaign goals.</p></div></div>
+        <div class="process-step reveal"><div class="process-step-content"><h4>AI Production</h4><p>Using Veo 3, Kling AI, and our proprietary workflows, we generate hyper-realistic video content that stuns.</p></div><div class="process-number">3</div><div style="width:45%"></div></div>
+        <div class="process-step reveal"><div style="width:45%"></div><div class="process-number">4</div><div class="process-step-content"><h4>Delivery & Support</h4><p>Final assets delivered in all formats. Free revisions included. We're with you through the entire campaign.</p></div></div>
+    </div>
+</section>
 
-        document.querySelectorAll('a, button, .service-card, .pricing-card').forEach(el => {
-            el.addEventListener('mouseenter', () => ring.classList.add('hover'));
-            el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
-        });
+<section class="portfolio" id="portfolio">
+    <div class="portfolio-header reveal"><p class="section-label">Our Work</p><h2 class="section-title">Projects That <span style="color:var(--gold-bright)">Speak Results</span></h2><p class="section-desc">A glimpse into the diverse industries we've transformed with AI-powered creative solutions.</p></div>
+    <div class="portfolio-grid">
+        <div class="portfolio-card reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=600&h=450&fit=crop" alt="Airport Services"><div class="portfolio-overlay"><h4>Airport Meet & Greet</h4><p>AI Video Ad &bull; Global Airport Services</p><span class="portfolio-overlay-tag">Video Ad</span></div></div>
+        <div class="portfolio-card reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=450&fit=crop" alt="Fitness Brand"><div class="portfolio-overlay"><h4>Premium Fitness Brand</h4><p>Explainer Video &bull; Gym Chain</p><span class="portfolio-overlay-tag">Explainer</span></div></div>
+        <div class="portfolio-card reveal reveal-delay-3"><img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&h=450&fit=crop" alt="Real Estate"><div class="portfolio-overlay"><h4>Luxury Real Estate</h4><p>Property Showcase &bull; AI Walkthrough</p><span class="portfolio-overlay-tag">Walkthrough</span></div></div>
+        <div class="portfolio-card reveal reveal-delay-1"><img src="https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=600&h=450&fit=crop" alt="Aviation Academy"><div class="portfolio-overlay"><h4>Aviation Academy</h4><p>Brand Video &bull; UniAviation Academy</p><span class="portfolio-overlay-tag">Brand Film</span></div></div>
+        <div class="portfolio-card reveal reveal-delay-2"><img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=450&fit=crop" alt="FMCG Product"><div class="portfolio-overlay"><h4>FMCG Product Launch</h4><p>Social Media Ads &bull; Consumer Brand</p><span class="portfolio-overlay-tag">Social Ads</span></div></div>
+        <div class="portfolio-card reveal reveal-delay-3"><img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&h=450&fit=crop" alt="Corporate Website"><div class="portfolio-overlay"><h4>Corporate Website</h4><p>Web Development &bull; Tech Startup</p><span class="portfolio-overlay-tag">Website</span></div></div>
+    </div>
+</section>
 
-        // ═══════════════ PARTICLES ═══════════════
-        const particleContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const p = document.createElement('div');
-            p.classList.add('particle');
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-            p.style.animationDelay = (Math.random() * 10) + 's';
-            p.style.width = p.style.height = (Math.random() * 3 + 1) + 'px';
-            particleContainer.appendChild(p);
-        }
+<section class="pricing" id="pricing">
+    <div class="pricing-header reveal"><p class="section-label">Pricing</p><h2 class="section-title">Transparent <span style="color:var(--gold-bright)">Investment Plans</span></h2><p class="section-desc">Affordable packages designed for businesses of every size. All prices in INR.</p></div>
+    <div class="pricing-grid">
+        <div class="pricing-card reveal reveal-delay-1"><h3>Starter</h3><div class="price">&#8377;1,750<span> /video</span></div><p class="price-desc">Perfect for small businesses getting started</p><ul class="pricing-features"><li>15-30 sec AI Video Ad</li><li>Script & Storyboarding</li><li>Background Music & SFX</li><li>1 Revision Round</li><li>Delivery in 48 hours</li></ul><a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20the%20Starter%20package." class="pricing-btn pricing-btn-outline" target="_blank">Get Started</a></div>
+        <div class="pricing-card featured reveal reveal-delay-2"><h3>Professional</h3><div class="price">&#8377;5,000<span> /video</span></div><p class="price-desc">For brands that want premium impact</p><ul class="pricing-features"><li>30-60 sec Cinematic AI Video</li><li>Custom Script & Voiceover</li><li>Multi-scene Storyboard</li><li>3 Revision Rounds</li><li>Social Media Formats Included</li><li>Priority Delivery</li></ul><a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20the%20Professional%20package." class="pricing-btn pricing-btn-primary" target="_blank">Get Started</a></div>
+        <div class="pricing-card reveal reveal-delay-3"><h3>Website</h3><div class="price">&#8377;10,000<span>+</span></div><p class="price-desc">Full website design & development</p><ul class="pricing-features"><li>Custom Modern Design</li><li>Mobile Responsive</li><li>SEO Optimization</li><li>Contact Forms & WhatsApp</li><li>Free 1 Month Support</li><li>Analytics Setup</li></ul><a href="https://wa.me/916369645372?text=Hi!%20I'm%20interested%20in%20Website%20development." class="pricing-btn pricing-btn-outline" target="_blank">Get Started</a></div>
+    </div>
+</section>
 
-        // ═══════════════ NAVBAR SCROLL ═══════════════
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-        });
+<section class="testimonials" id="testimonials">
+    <div class="testimonials-header reveal"><p class="section-label">Testimonials</p><h2 class="section-title">What Our <span style="color:var(--gold-bright)">Clients Say</span></h2><p class="section-desc">Real feedback from businesses we've helped grow.</p></div>
+    <div class="testimonials-grid">
+        <div class="testimonial-card reveal reveal-delay-1"><div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div><p class="testimonial-text">"The AI video ad Delta Digital created for our meet & greet service was incredible. It looked like a real film production. Our customer inquiries doubled within a month!"</p><div class="testimonial-author"><div class="testimonial-avatar">R</div><div class="testimonial-author-info"><h5>Rajan K.</h5><p>Airport Services Director</p></div></div></div>
+        <div class="testimonial-card reveal reveal-delay-2"><div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div><p class="testimonial-text">"We needed a professional promotional video for our aviation academy. The quality was beyond expectations — students genuinely thought it was filmed with real cameras."</p><div class="testimonial-author"><div class="testimonial-avatar">S</div><div class="testimonial-author-info"><h5>Suresh M.</h5><p>UniAviation Academy</p></div></div></div>
+        <div class="testimonial-card reveal reveal-delay-3"><div class="testimonial-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div><p class="testimonial-text">"Fast turnaround, professional quality, and amazing attention to detail. Delta Digital delivered our website and video ads on time with zero hassle. Highly recommended!"</p><div class="testimonial-author"><div class="testimonial-avatar">P</div><div class="testimonial-author-info"><h5>Priya D.</h5><p>FMCG Brand Owner</p></div></div></div>
+    </div>
+</section>
 
-        // ═══════════════ MOBILE MENU ═══════════════
-        const mobileToggle = document.getElementById('mobileToggle');
-        const navLinks = document.getElementById('navLinks');
+<section class="cta"><div class="cta-card reveal"><p class="section-label">Ready to Start?</p><h2>Let's Build Something <span style="color:var(--gold-bright)">Extraordinary</span></h2><p>Drop us a message on WhatsApp and get a free consultation. No obligations, just great ideas.</p><div class="cta-buttons"><a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'd%20love%20a%20free%20consultation." class="btn-primary" target="_blank"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>Free Consultation</a><a href="#services" class="btn-outline">View Services</a></div></div></section>
 
-        mobileToggle.addEventListener('click', () => {
-            mobileToggle.classList.toggle('active');
-            navLinks.classList.toggle('open');
-        });
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand"><img src="logo.jpg" alt="Delta Digital Solutions"><p>AI-powered creative studio delivering realistic video advertisements and stunning websites for modern businesses across India.</p></div>
+        <div class="footer-col"><h4>Services</h4><a href="#services">AI Video Ads</a><a href="#services">Website Development</a><a href="#services">Social Media Ads</a><a href="#services">Brand Identity</a></div>
+        <div class="footer-col"><h4>Company</h4><a href="#process">Our Process</a><a href="#portfolio">Portfolio</a><a href="#pricing">Pricing</a><a href="#testimonials">Testimonials</a></div>
+        <div class="footer-col"><h4>Contact</h4><a href="https://wa.me/916369645372" target="_blank">WhatsApp</a><a href="tel:+916369645372">+91 63696 45372</a><a href="https://deltadigitalsolutions.in">deltadigitalsolutions.in</a></div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 Delta Digital Solutions. All rights reserved.</p><div class="footer-socials"><a href="https://wa.me/916369645372" target="_blank">&#128172;</a><a href="#">&#128248;</a><a href="#">&#9654;&#65039;</a></div></div>
+</footer>
 
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileToggle.classList.remove('active');
-                navLinks.classList.remove('open');
-            });
-        });
+<div class="whatsapp-float"><div class="whatsapp-float-label">Chat with us!</div><a href="https://wa.me/916369645372?text=Hi%20Delta%20Digital!%20I'm%20interested%20in%20your%20services." class="whatsapp-btn" target="_blank"><svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></div>
 
-        // ═══════════════ SCROLL REVEAL ═══════════════
-        const reveals = document.querySelectorAll('.reveal');
-        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+<script>
+var canvas=document.getElementById('fireCanvas'),ctx=canvas.getContext('2d'),particles=[];
+function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+resizeCanvas();window.addEventListener('resize',resizeCanvas);
+function FireParticle(){this.reset()}
+FireParticle.prototype.reset=function(){this.x=Math.random()*canvas.width;this.y=canvas.height+Math.random()*100;this.size=Math.random()*4+1;this.speedY=-(Math.random()*1.5+.3);this.speedX=(Math.random()-.5)*.8;this.life=1;this.decay=Math.random()*.008+.003;this.wobble=Math.random()*Math.PI*2;this.wobbleSpeed=Math.random()*.03+.01;var c=Math.random();if(c<.4){this.r=245;this.g=197;this.b=24}else if(c<.7){this.r=255;this.g=165;this.b=0}else if(c<.85){this.r=255;this.g=220;this.b=80}else{this.r=255;this.g=100;this.b=20}};
+FireParticle.prototype.update=function(){this.wobble+=this.wobbleSpeed;this.x+=this.speedX+Math.sin(this.wobble)*.3;this.y+=this.speedY;this.life-=this.decay;this.size*=.998;if(this.life<=0||this.y<-20)this.reset()};
+FireParticle.prototype.draw=function(){ctx.save();ctx.globalAlpha=this.life*.6;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fillStyle='rgb('+this.r+','+this.g+','+this.b+')';ctx.fill();ctx.globalAlpha=this.life*.2;ctx.beginPath();ctx.arc(this.x,this.y,this.size*3,0,Math.PI*2);var g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.size*3);g.addColorStop(0,'rgba('+this.r+','+this.g+','+this.b+',.4)');g.addColorStop(1,'rgba('+this.r+','+this.g+','+this.b+',0)');ctx.fillStyle=g;ctx.fill();ctx.restore()};
+for(var i=0;i<60;i++){var p=new FireParticle();p.y=Math.random()*canvas.height;particles.push(p)}
+function animateFire(){ctx.clearRect(0,0,canvas.width,canvas.height);for(var i=0;i<particles.length;i++){particles[i].update();particles[i].draw()}requestAnimationFrame(animateFire)}
+animateFire();
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+var dot=document.getElementById('cursorDot'),ring=document.getElementById('cursorRing');
+document.addEventListener('mousemove',function(e){dot.style.left=e.clientX-4+'px';dot.style.top=e.clientY-4+'px';ring.style.left=e.clientX-20+'px';ring.style.top=e.clientY-20+'px'});
+document.querySelectorAll('a,button,.service-card,.pricing-card,.portfolio-card').forEach(function(el){el.addEventListener('mouseenter',function(){ring.classList.add('hover')});el.addEventListener('mouseleave',function(){ring.classList.remove('hover')})});
 
-        reveals.forEach(el => observer.observe(el));
+var navbar=document.getElementById('navbar');
+window.addEventListener('scroll',function(){navbar.classList.toggle('scrolled',window.scrollY>50)});
 
-        // ═══════════════ COUNT UP ANIMATION ═══════════════
-        const countEls = document.querySelectorAll('.count-up');
-        const countObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const el = entry.target;
-                    const target = +el.dataset.target;
-                    let current = 0;
-                    const step = target / 60;
-                    const timer = setInterval(() => {
-                        current += step;
-                        if (current >= target) {
-                            current = target;
-                            clearInterval(timer);
-                        }
-                        el.textContent = Math.round(current);
-                    }, 25);
-                    countObserver.unobserve(el);
-                }
-            });
-        }, { threshold: 0.5 });
+var mobileToggle=document.getElementById('mobileToggle'),navLinks=document.getElementById('navLinks');
+mobileToggle.addEventListener('click',function(){mobileToggle.classList.toggle('active');navLinks.classList.toggle('open')});
+navLinks.querySelectorAll('a').forEach(function(l){l.addEventListener('click',function(){mobileToggle.classList.remove('active');navLinks.classList.remove('open')})});
 
-        countEls.forEach(el => countObserver.observe(el));
+var reveals=document.querySelectorAll('.reveal');
+var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -50px 0px'});
+reveals.forEach(function(el){obs.observe(el)});
 
-        // ═══════════════ SMOOTH SCROLL ═══════════════
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+var countEls=document.querySelectorAll('.count-up');
+var cObs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){var el=e.target,target=+el.dataset.target,current=0,step=target/60;var t=setInterval(function(){current+=step;if(current>=target){current=target;clearInterval(t)}el.textContent=Math.round(current)},25);cObs.unobserve(el)}})},{threshold:.5});
+countEls.forEach(function(el){cObs.observe(el)});
+
+document.querySelectorAll('a[href^="#"]').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.querySelector(this.getAttribute('href'));if(t)t.scrollIntoView({behavior:'smooth',block:'start'})})});
+</script>
 </body>
 </html>
